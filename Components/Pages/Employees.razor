@@ -2,12 +2,19 @@
 @using ImportExport.DataAccess.Entities
 @using ImportExport.DataAccess.Services
 @inject EmployeeService es
+@inject IDialogService dialogService
 @rendermode InteractiveServer
 
 
 
 <MudDataGrid @ref="dataGrid" T="Employee" ServerData="ServerReload" Filterable="false" Class="col-12" >
     <ToolBarContent>
+        
+        <MudButton StartIcon="@Icons.Material.Sharp.PersonAddAlt"
+                   Class="me-2"
+                   Variant="Variant.Filled"
+                   @onclick="CreateEmployee" />
+
         <MudText Typo="Typo.h6">Empoyees</MudText>
         <MudSpacer />
         <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
@@ -15,10 +22,10 @@
     </ToolBarContent>
     <Columns>
        
-        <PropertyColumn Property="x => x.FullName" />
+        <PropertyColumn Property="x => x.FullName"/>
         <PropertyColumn Property="x => x.Departement" />
-        <PropertyColumn Property="x => x.PhoneNumber" Title="Phone" />
-        <PropertyColumn Property="x => x.Age" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="Phone"/>
+        <PropertyColumn Property="x => x.Age"/>
         <PropertyColumn Property="x => x.DateOfBirth" Format="dd/MM/yyyy" Title="Birth" />
         
     </Columns>
@@ -40,10 +47,6 @@
 
     }
 
-    /// <summary>
-    /// Here we simulate getting the paged, filtered and ordered data from the server
-    /// </summary>
-    /// 
 
     private async Task<GridData<Employee>> ServerReload(GridState<Employee> state)
     {
@@ -113,6 +116,19 @@
     {
         searchString = text;
         return dataGrid.ReloadServerData();
+    }
+
+    private async Task CreateEmployee()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.Large};
+        var dialogue = await dialogService.ShowAsync<CreateEmployee>("Add Employee",options);
+        var result = await dialogue.Result;
+
+        if (result is not null && !result.Canceled)
+            await dataGrid.ReloadServerData();
+
+      
+
     }
 }
 
