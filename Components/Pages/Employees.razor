@@ -1,0 +1,124 @@
+﻿@page "/employees"
+@using ImportExport.DataAccess.Entities
+@using ImportExport.DataAccess.Services
+@inject EmployeeService es
+@rendermode InteractiveServer
+
+
+
+<MudDataGrid @ref="dataGrid" T="Employee" ServerData="ServerReload" Filterable="false" Class="col-12" >
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Empoyees</MudText>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.PersonSearch" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+       
+        <PropertyColumn Property="x => x.FullName" />
+        <PropertyColumn Property="x => x.Departement" />
+        <PropertyColumn Property="x => x.PhoneNumber" Title="Phone" />
+        <PropertyColumn Property="x => x.Age" />
+        <PropertyColumn Property="x => x.DateOfBirth" Format="dd/MM/yyyy" Title="Birth" />
+        
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Employee" />
+    </PagerContent>
+</MudDataGrid>
+
+@code {
+    MudDataGrid<Employee> ? dataGrid;
+    string searchString = string.Empty;
+
+
+
+    public List<Employee> employees = new();
+    protected async override Task OnInitializedAsync()
+    {
+        employees = await es.GetAllEmployees();
+
+    }
+
+    /// <summary>
+    /// Here we simulate getting the paged, filtered and ordered data from the server
+    /// </summary>
+    /// 
+
+    private async Task<GridData<Employee>> ServerReload(GridState<Employee> state)
+    {
+        IEnumerable<Employee> data = await es.GetAllEmployees();
+        await Task.Delay(300);
+        data = data.Where(employee =>
+        {
+            if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (employee.FullName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (employee.Departement.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if ($"{employee.PhoneNumber} {employee.Age} {employee.DateOfBirth}".Contains(searchString))
+                return true;
+            return false;
+        }).ToArray();
+        var totalItems = data.Count();
+
+        var sortDefinition = state.SortDefinitions.FirstOrDefault();
+        if (sortDefinition != null)
+        {
+            switch (sortDefinition.SortBy)
+            {
+                case nameof(Employee.PhoneNumber):
+                    data = data.OrderByDirection(
+                        sortDefinition.Descending ? SortDirection.Descending : SortDirection.Ascending,
+                        o => o.PhoneNumber
+                    );
+                    break;
+                case nameof(Employee.Departement):
+                    data = data.OrderByDirection(
+                        sortDefinition.Descending ? SortDirection.Descending : SortDirection.Ascending,
+                        o => o.Departement
+                    );
+                    break;
+                case nameof(Employee.FullName):
+                    data = data.OrderByDirection(
+                        sortDefinition.Descending ? SortDirection.Descending : SortDirection.Ascending,
+                        o => o.FullName
+                    );
+                    break;
+                case nameof(Employee.Age):
+                    data = data.OrderByDirection(
+                        sortDefinition.Descending ? SortDirection.Descending : SortDirection.Ascending,
+                        o => o.Age
+                    );
+                    break;
+                case nameof(Employee.DateOfBirth):
+                    data = data.OrderByDirection(
+                        sortDefinition.Descending ? SortDirection.Descending : SortDirection.Ascending,
+                        o => o.DateOfBirth
+                    );
+                    break;
+            }
+        }
+
+        var pagedData = data.Skip(state.Page * state.PageSize).Take(state.PageSize).ToArray();
+        return new GridData<Employee>
+            {
+                TotalItems = totalItems,
+                Items = pagedData
+            };
+    }
+
+    private Task OnSearch(string text)
+    {
+        searchString = text;
+        return dataGrid.ReloadServerData();
+    }
+}
+
+
+
+
+
+
+

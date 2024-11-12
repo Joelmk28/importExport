@@ -1,5 +1,6 @@
 using ImportExport.Components;
 using ImportExport.DataAccess;
+using ImportExport.DataAccess.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MudBlazor.Services;
@@ -12,10 +13,14 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddHttpClient();
 
 
 
