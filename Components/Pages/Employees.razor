@@ -121,7 +121,7 @@
     private async Task CreateEmployee()
     {
         var options = new DialogOptions { MaxWidth = MaxWidth.Large};
-        var dialogue = await dialogService.ShowAsync<CreateEmployee>("Add Employee",options);
+        var dialogue = await dialogService.ShowAsync<AddOrUpdateEmployee>("Add Employee",options);
         var result = await dialogue.Result;
 
         if (result is not null && !result.Canceled)

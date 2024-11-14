@@ -1,0 +1,94 @@
+﻿@using MudBlazor;
+@inject EmployeeService es;
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+
+
+
+
+<EditForm Model="NewEmployee" OnValidSubmit="ValidateForm">
+    <MudDialog>
+        
+        <DialogContent>
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="9">
+                    <MudTextField Variant="Variant.Outlined"
+                                  
+                                  Label="Full Name"
+                                  T="string"
+                                  @bind-Value="NewEmployee.FullName"
+                                  Required="true"
+                                  RequiredError="Please give the full name"
+                                  For="(()=> NewEmployee.FullName)"
+                                  />
+                </MudItem>
+
+                <MudItem xs="3">
+                    <MudTextField Variant="Variant.Outlined"
+                                  ShrinkLabel
+                                  Label="Age"
+                                  @bind-Value="NewEmployee.Age"
+                                  Required="true"
+                                  For="(()=> NewEmployee.Age)"
+                                  RequiredError="Please give the age" />
+                </MudItem>
+            </MudGrid>
+            <MudDatePicker Variant="Variant.Outlined" @bind-value="NewEmployee.DateOfBirth" Label="Date of birth" />
+
+            
+            <MudTextField Variant="Variant.Outlined"
+                          ShrinkLabel
+                          Label="Department"
+                          @bind-Value="NewEmployee.Departement"
+                          Required="true"
+                          For="(()=> NewEmployee.Departement)"
+                          RequiredError="Please give the department" />
+
+            <MudTextField Variant="Variant.Outlined"
+                          ShrinkLabel
+                          Label="Phone"
+                          @bind-Value="NewEmployee.PhoneNumber"
+                          Required="true"
+                          For="(()=> NewEmployee.PhoneNumber)"
+                          RequiredError="Please give the number phone" />
+        </DialogContent>
+           
+       <DialogActions>
+           <MudButton OnClick="Cancel">Cancel</MudButton>
+           <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" >save</MudButton>
+       </DialogActions>
+    </MudDialog>
+
+</EditForm>
+
+
+
+@code {
+
+    [CascadingParameter]
+    public MudDialogInstance ? dialogInstance { get; set; }
+    public Employee NewEmployee = new();
+
+    public async Task ValidateForm(EditContext editContext)
+    {
+        await Task.Delay(100);
+        var result =  es.CreateEmployee(NewEmployee);
+        if (result)
+        {
+            // snack.Add("Successfull create empoyee", Severity.Success,null);
+            dialogInstance.Close();
+        }
+        
+
+    
+    }
+
+    public void Cancel()
+    {
+        dialogInstance.Cancel();
+    }
+
+   
+
+}

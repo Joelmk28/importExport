@@ -30,12 +30,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTXlOYXZNZW51LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/web/ImportExport/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
+[D:/C\#/web/ImportExport/Components/Pages/AddOrUpdateEmployee.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZGRPclVwZGF0ZUVtcGxveWVlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/web/ImportExport/Components/Pages/CreateEmployee.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVFbXBsb3llZS5yYXpvcg==
+[D:/C\#/web/ImportExport/Components/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDb3VudGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/C\#/web/ImportExport/Components/Pages/Employees.razor]
