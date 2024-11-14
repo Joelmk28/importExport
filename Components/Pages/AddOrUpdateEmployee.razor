@@ -6,7 +6,7 @@
 
 
 
-<EditForm Model="NewEmployee" OnValidSubmit="ValidateForm">
+<EditForm Model="NewEmployee" >
     <MudDialog>
         
         <DialogContent>
@@ -34,7 +34,7 @@
                                   RequiredError="Please give the age" />
                 </MudItem>
             </MudGrid>
-            <MudDatePicker Variant="Variant.Outlined" @bind-value="NewEmployee.DateOfBirth" Label="Date of birth" />
+            <MudDatePicker Variant="Variant.Outlined" @bind-value="date" Label="Date of birth" />
 
             
             <MudTextField Variant="Variant.Outlined"
@@ -56,7 +56,7 @@
            
        <DialogActions>
            <MudButton OnClick="Cancel">Cancel</MudButton>
-           <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" >save</MudButton>
+           <MudButton OnClick="ValidateForm" Color="Color.Primary" >save</MudButton>
        </DialogActions>
     </MudDialog>
 
@@ -70,14 +70,18 @@
     public MudDialogInstance ? dialogInstance { get; set; }
     public Employee NewEmployee = new();
 
-    public async Task ValidateForm(EditContext editContext)
+    public DateTime? date = DateTime.Now;
+
+    public async Task ValidateForm()
     {
+        NewEmployee.DateOfBirth = date;
         await Task.Delay(100);
+        
         var result =  es.CreateEmployee(NewEmployee);
         if (result)
         {
             // snack.Add("Successfull create empoyee", Severity.Success,null);
-            dialogInstance.Close();
+            dialogInstance.Cancel();
         }
         
 

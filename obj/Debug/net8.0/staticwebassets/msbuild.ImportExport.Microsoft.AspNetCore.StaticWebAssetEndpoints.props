@@ -28,7 +28,7 @@
       <AssetFile>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\ImportExport.bundle.scp.css))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"5907"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00223KeZSuq0YpEMrW2J4eGs9jK/kARsGdwexvGjTjBzmZ4=\u0022"},{"Name":"Last-Modified","Value":"Thu, 14 Nov 2024 03:10:04 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"5907"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00223KeZSuq0YpEMrW2J4eGs9jK/kARsGdwexvGjTjBzmZ4=\u0022"},{"Name":"Last-Modified","Value":"Thu, 14 Nov 2024 21:05:33 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>
